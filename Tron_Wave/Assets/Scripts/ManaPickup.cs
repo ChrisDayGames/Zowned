@@ -10,8 +10,9 @@ public class ManaPickup : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        transform.position = new Vector3(1000, 1000, 1000);
-        Invoke("Respawn", spawnWait);
+
+
+
     }
 
     public void Respawn () {
