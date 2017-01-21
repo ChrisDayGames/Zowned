@@ -36,7 +36,7 @@ public class PingPongPosition : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		float xOffset =  (-1 + Mathf.PingPong(initialTime + Time.time * frequency, 2)) * amplitude;
+		float xOffset =  (-1 + Mathf.PingPong((initialTime + Time.time) * frequency, 2)) * amplitude;
 
         if (inverted)
             xOffset = -xOffset;

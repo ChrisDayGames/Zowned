@@ -48,10 +48,12 @@ public class Player : MonoBehaviour {
     public float manaRechargeRate = 1;
     public float shotCost = 1;
     public float pickupRechargePercent = 30;
+
+    public Bar vignette;
     public Bar manaBar;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		line  = GetComponent <LineRenderer> ();
         rb = GetComponent<Rigidbody>();
 
@@ -59,7 +61,7 @@ public class Player : MonoBehaviour {
         spawnTimer = Time.time;
 
         hp = maxHp;
-        mana = maxMana / 2;
+        mana = 0;
 	}
 	
 	// Update is called once per frame
@@ -86,7 +88,7 @@ public class Player : MonoBehaviour {
             direction += new Vector3(0, -1, 0);
         }
 
-        rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
+        rb.MovePosition(transform.position + direction.normalized * speed * Time.deltaTime);
 
 
         if (Input.GetButton(aButton)) {
@@ -106,6 +108,7 @@ public class Player : MonoBehaviour {
 
 
         RechargeMana();
+        //vignette.SetOpacity (mana / maxMana);
         manaBar.SetSize (mana / maxMana);
 
         //UpdateLineRenderer();
@@ -199,6 +202,14 @@ public class Player : MonoBehaviour {
 
         }
 
+        if (other.gameObject.tag == "HalfCharge") {
+
+            mana += pickupRechargePercent / 8;
+            if (mana > maxMana) {
+                mana = maxMana;
+            }
+
+        }
 
     }
 
