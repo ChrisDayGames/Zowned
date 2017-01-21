@@ -47,7 +47,7 @@ public class PingPongPosition : MonoBehaviour {
 
     public void SetAttack(float attackPower) {
 
-        frequency = maxFrequency - (maxFrequency - minFrequency) * (attackPower / 5);
+        frequency = minFrequency + (maxFrequency - minFrequency) * (attackPower / 5);
 
         amplitude = maxAmplitude - (maxAmplitude - minAmplitude) * (attackPower / 5);
 

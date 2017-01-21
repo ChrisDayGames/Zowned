@@ -59,7 +59,7 @@ public class Player : MonoBehaviour {
         spawnTimer = Time.time;
 
         hp = maxHp;
-        mana = maxMana;
+        mana = maxMana / 2;
 	}
 	
 	// Update is called once per frame
