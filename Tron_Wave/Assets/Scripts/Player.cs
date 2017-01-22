@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -11,6 +12,8 @@ public class Player : MonoBehaviour {
 	public float distancePerEmission = 1;
 
     /////////
+    public MenuNavigation menuNav;
+
 	public string horizontalAxis;
 	public string verticalAxis;
 
@@ -24,6 +27,8 @@ public class Player : MonoBehaviour {
     public float growthRate = 5;
 
     public Transform spawnPosition;
+
+    public Vector3 originalSpawnPosition;
 
     //public float minEmission;
     //public float maxEmission;
@@ -41,6 +46,9 @@ public class Player : MonoBehaviour {
 
     public float hp;
     public float maxHp = 100;
+
+    public Text p1ScoreText;
+    public Text p2ScoreText;
 
     [Header ("Mana Bar")]
     public float mana;
@@ -186,7 +194,34 @@ public class Player : MonoBehaviour {
 
 	}
 
+    public void ResetValues() {
+
+        transform.position = originalSpawnPosition;
+
+        mana = 0;
+        manaBar.SetSize(mana / maxMana);
+
+    }
+
+    void UpdateScoreUI() {
+
+        p1ScoreText.text = GameController.p1Score.ToString();
+        p2ScoreText.text = GameController.p2Score.ToString();
+
+    }
+
+    void ShowGameOverMenu() {
+
+        GameController.state = "gameover";
+
+        menuNav.ShowPopUp("GameOver Panel");
+
+    }
+
 	void OnTriggerEnter (Collider other) {
+
+        if (GameController.state != "playing")
+            return;
 
 		if (other.gameObject.tag == tag) {
 
@@ -194,7 +229,17 @@ public class Player : MonoBehaviour {
 
             CameraShake2D.instance.ShakeCamera(0.1f, 0.5f, 1f);
 
-            GameController.state = "gameover";
+            GameController.state = "pregameover";
+            
+            if(tag == "Bullet") {
+                GameController.p1Score++;
+            } else if(tag == "Bullet2") {
+                GameController.p2Score++;
+            }
+
+            UpdateScoreUI();
+
+            Invoke("ShowGameOverMenu", 1f);
 
         }
 
