@@ -74,10 +74,12 @@ public class GameController : MonoBehaviour {
         GameObject[] bullets2 = GameObject.FindGameObjectsWithTag("Bullet2");
 
         for(int i = 0; i < bullets.Length; i++) {
-            Destroy(bullets[i]);
+            if(bullets[i])
+                Destroy(bullets[i]);
         }
 
         for (int i = 0; i < bullets2.Length; i++) {
+            if(bullets2[i])
             Destroy(bullets2[i]);
         }
 
