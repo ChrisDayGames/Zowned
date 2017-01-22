@@ -67,6 +67,9 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        if (GameController.state != "playing")
+            return;
+
 		float xAxis = Input.GetAxisRaw(horizontalAxis);
 		float yAxis = Input.GetAxisRaw(verticalAxis);
 
@@ -190,6 +193,8 @@ public class Player : MonoBehaviour {
             gameObject.SetActive(false);
 
             CameraShake2D.instance.ShakeCamera(0.1f, 0.5f, 1f);
+
+            GameController.state = "gameover";
 
         }
 
