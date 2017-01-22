@@ -52,6 +52,8 @@ public class Player : MonoBehaviour {
     public Text p1ScoreText;
     public Text p2ScoreText;
 
+    public GameObject deathEffect;
+
     [Header ("Mana Bar")]
     public float mana;
     public float maxMana = 100;
@@ -77,6 +79,9 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(GameController.state == "pregameover")
+            _animator.Play(Animator.StringToHash("BMove"));
 
         if (GameController.state != "playing")
             return;
@@ -246,6 +251,8 @@ public class Player : MonoBehaviour {
 
 		if (other.gameObject.tag == tag) {
 
+            GameObject death = Instantiate(deathEffect, transform.position, Quaternion.identity) as GameObject;
+
             gameObject.SetActive(false);
 
             CameraShake2D.instance.ShakeCamera(0.1f, 0.5f, 1f);
@@ -260,7 +267,7 @@ public class Player : MonoBehaviour {
 
             UpdateScoreUI();
 
-            Invoke("ShowGameOverMenu", 1f);
+            Invoke("ShowGameOverMenu", 1.5f);
 
         }
 

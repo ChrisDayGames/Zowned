@@ -14,6 +14,8 @@ public class ManaPickup : MonoBehaviour {
 
     bool dontRespawn = false;
 
+    public GameObject collectionEffect;
+
     // Use this for initialization
     void Start () {
 
@@ -34,9 +36,17 @@ public class ManaPickup : MonoBehaviour {
         
     }
 
+    void AnimateCollection() {
+
+        GameObject effect = Instantiate(collectionEffect, transform.position, Quaternion.identity) as GameObject;
+
+    }
+
     void OnTriggerEnter (Collider other) {
 
         if (other.gameObject.tag == "Player") {
+
+            AnimateCollection();
 
             dontRespawn = false;
 
