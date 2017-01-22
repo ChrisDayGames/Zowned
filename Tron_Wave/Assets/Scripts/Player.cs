@@ -30,6 +30,8 @@ public class Player : MonoBehaviour {
 
     public Vector3 originalSpawnPosition;
 
+	private Animator _animator;
+
     //public float minEmission;
     //public float maxEmission;
 
@@ -70,6 +72,7 @@ public class Player : MonoBehaviour {
 
         hp = maxHp;
         mana = 0;
+		_animator = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -85,25 +88,42 @@ public class Player : MonoBehaviour {
 
 		if(xAxis > 0) {
             direction += new Vector3(1, 0, 0);
+			if (!(Input.GetButton (aButton)) || !(Input.GetButton (bButton))) { 
+				_animator.Play (Animator.StringToHash ("BMove"));
+			}
 		}
 
 		if(xAxis < 0) {
             direction += new Vector3(-1, 0, 0);
+			if (!(Input.GetButton (aButton)) || !(Input.GetButton (bButton))) { 
+				_animator.Play (Animator.StringToHash ("BMove"));
+			}
+
 		}
 
 		if(yAxis > 0) {
             direction += new Vector3(0, 1, 0);
+			if (!(Input.GetButton (aButton)) || !(Input.GetButton (bButton))) { 
+				_animator.Play (Animator.StringToHash ("BMove"));
+			}
+
 		}
 
         if (yAxis < 0) {
             direction += new Vector3(0, -1, 0);
+			if (!(Input.GetButton (aButton)) || !(Input.GetButton (bButton))) { 
+				_animator.Play (Animator.StringToHash ("BMove"));
+			}
+
         }
+
 
         rb.MovePosition(transform.position + direction.normalized * speed * Time.deltaTime);
 
 
         if (Input.GetButton(aButton)) {
 
+			_animator.Play( Animator.StringToHash( "BFire" ) );
             attackPower = maxAttack;
             Shoot();
 
@@ -111,6 +131,7 @@ public class Player : MonoBehaviour {
 
         if(Input.GetButton(bButton)) {
 
+			_animator.Play( Animator.StringToHash( "BFire" ) );
             attackPower = minAttack;
             Shoot();
 
@@ -131,10 +152,10 @@ public class Player : MonoBehaviour {
 
             if (HasEnoughMana(shotCost)) {
 
-                GameObject go = Instantiate<GameObject>(bullet, spawnPosition.position, transform.rotation);
+				GameObject go = Instantiate<GameObject>(bullet, spawnPosition.position, Quaternion.Euler(0,0,90f));
                 go.GetComponent<PingPongPosition>().SetAttack(attackPower);
 
-                GameObject gg = Instantiate<GameObject>(bullet, spawnPosition.position, transform.rotation);
+				GameObject gg = Instantiate<GameObject>(bullet, spawnPosition.position, Quaternion.Euler(0,0,90f));
                 gg.GetComponent<PingPongPosition>().SetAttack(attackPower);
                 gg.GetComponent<PingPongPosition>().inverted = true;
 
